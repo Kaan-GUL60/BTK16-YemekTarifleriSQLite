@@ -13,8 +13,8 @@ import java.lang.Exception
 
 class ListeFragment : Fragment() {
 
-    var yemekIsmiListesi = ArrayList<String>()
-    var yemekIdListtesi = ArrayList<Int>()
+    var yemekIsmiListesi = ArrayList<String>()  // gelen veri array a eklendi
+    var yemekIdListtesi = ArrayList<Int>()   // gelen veri array a eklendi
     private lateinit var listeAdapter : ListeRecyclerAdapter
 
 
@@ -51,15 +51,15 @@ class ListeFragment : Fragment() {
                 val database = it.openOrCreateDatabase("Yemekler", Context.MODE_PRIVATE,null)
 
                 val cursor = database.rawQuery("SELECT * FROM yemekler",null)
-                val yemekIsmiIndex = cursor.getColumnIndex("yemekismi")
+                val yemekIsmiIndex = cursor.getColumnIndex("yemekismi")  // ilglili etiketler SQL dne okunacak şekilde ayatlandı
                 val yemekIdIndex = cursor.getColumnIndex("id")
 
-                yemekIsmiListesi.clear()
+                yemekIsmiListesi.clear() // önceden kalmış veirler varsa bunların silinir ve yeni veriler için lste boş hale getirilir
                 yemekIdListtesi.clear()
 
-                while(cursor.moveToNext()){
+                while(cursor.moveToNext()){  // while ile tüm satırlar okundu ve hesi array listesine eklendi.
 
-                    yemekIsmiListesi.add(cursor.getString(yemekIsmiIndex))
+                    yemekIsmiListesi.add(cursor.getString(yemekIsmiIndex)) // arrya a eklekniyorlar 
                     yemekIdListtesi.add(cursor.getInt(yemekIdIndex))
 
                 }
