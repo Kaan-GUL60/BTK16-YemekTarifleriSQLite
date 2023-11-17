@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         if (item.itemId == R.id.yemek_ekleme_item){
-            val action = ListeFragmentDirections.actionListeFragmentToTarifFragment("menudengeldim",0)
+            val action = ListeFragmentDirections.actionListeFragmentToTarifFragment("menudengeldim",0) //nereden geldiğmizi navigation sınıfdan argument olarak ekliyoruz ve buraya giriyoruz ona göre açılan kısımda görüntüleme mi yoksa resim istememi yapıcaz ona karar veriyoruz.
             Navigation.findNavController(this,R.id.fragment).navigate(action)
         }
 
