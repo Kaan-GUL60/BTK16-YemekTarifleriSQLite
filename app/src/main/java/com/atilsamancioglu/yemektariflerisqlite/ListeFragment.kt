@@ -15,7 +15,7 @@ class ListeFragment : Fragment() {
 
     var yemekIsmiListesi = ArrayList<String>()  // gelen veri array a eklendi
     var yemekIdListtesi = ArrayList<Int>()   // gelen veri array a eklendi
-    private lateinit var listeAdapter : ListeRecyclerAdapter
+    private lateinit var listeAdapter : ListeRecyclerAdapter // custom view için adapter sınıfı çağırıldı oluşturulacak şimdi burda
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
