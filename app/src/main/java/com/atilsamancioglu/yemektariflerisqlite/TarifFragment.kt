@@ -95,13 +95,9 @@ class TarifFragment : Fragment() {
                     } catch (e: Exception){
                         e.printStackTrace()
                     }
-
                 }
-
             }
-
         }
-
 
     }
 
@@ -114,7 +110,7 @@ class TarifFragment : Fragment() {
 
             val kucukBitmap = kucukBitmapOlustur(secilenBitmap!!,300)
 
-            val outputStream = ByteArrayOutputStream()
+            val outputStream = ByteArrayOutputStream()         // resim veri haline getirildi ve kaydedilmeye hazır artık
             kucukBitmap.compress(Bitmap.CompressFormat.PNG,50,outputStream)
             val byteDizisi = outputStream.toByteArray()
 
@@ -122,13 +118,14 @@ class TarifFragment : Fragment() {
                 context?.let {
                     val database = it.openOrCreateDatabase("Yemekler", Context.MODE_PRIVATE,null)
                     database.execSQL("CREATE TABLE IF NOT EXISTS yemekler (id INTEGER PRIMARY KEY, yemekismi VARCHAR, yemekmalzemesi VARCHAR, gorsel BLOB)")
-
-                    val sqlString = "INSERT INTO yemekler (yemekismi, yemekmalzemesi, gorsel) VALUES (?, ?, ?)"
+                    //database sqlLit da bu datrıla oluşturuldu ilgili veri satırları girildi
+                    
+                    val sqlString = "INSERT INTO yemekler (yemekismi, yemekmalzemesi, gorsel) VALUES (?, ?, ?)" // buaradki soru işareti olan yerlere yazılacak veriler girilecek 
                     val statement = database.compileStatement(sqlString)
-                    statement.bindString(1,yemekIsmi)
-                    statement.bindString(2,yemekMalzemeleri)
-                    statement.bindBlob(3,byteDizisi)
-                    statement.execute()
+                    statement.bindString(1,yemekIsmi) //1.soru işaretine denk gelen veri
+                    statement.bindString(2,yemekMalzemeleri) //2.soruişaretine denk gelen veri
+                    statement.bindBlob(3,byteDizisi)  // 3 . soru işaretine denk gelen veri
+                    statement.execute()  //işlem bitti yazıldı veri taabınna
 
                 }
 
@@ -137,7 +134,7 @@ class TarifFragment : Fragment() {
             }
 
             val action = TarifFragmentDirections.actionTarifFragmentToListeFragment()
-            Navigation.findNavController(view).navigate(action)
+            Navigation.findNavController(view).navigate(action) // işlem bitti diğer fragmente geri dönüldü
 
         }
 
@@ -161,7 +158,7 @@ class TarifFragment : Fragment() {
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
-        permissions: Array<out String>,
+        permissions: Array<out String>,  //array olarak izin istendikullanıcıdan
         grantResults: IntArray
     ) {
         if (requestCode == 1){
@@ -170,17 +167,12 @@ class TarifFragment : Fragment() {
                 //izni aldık
                 val galeriIntent = Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
                 startActivityForResult(galeriIntent,2)
-
             }
-
         }
-
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-
         if(requestCode == 2 && resultCode == Activity.RESULT_OK && data != null){
 
             secilenGorsel = data.data
@@ -189,11 +181,11 @@ class TarifFragment : Fragment() {
 
                 context?.let {
                     if(secilenGorsel != null) {
-                        if( Build.VERSION.SDK_INT >= 28){
+                        if( Build.VERSION.SDK_INT >= 28){  //SDK28 yani android 9 üzeri için alttki fonk uygulanırken 
                             val source = ImageDecoder.createSource(it.contentResolver,secilenGorsel!!)
                             secilenBitmap = ImageDecoder.decodeBitmap(source)
                             imageView.setImageBitmap(secilenBitmap)
-                        } else {
+                        } else {   // API SDk 28 altı için bu fonk uygulanır kullanıcı telefonununun API değrine göre işke yapılır
                             secilenBitmap = MediaStore.Images.Media.getBitmap(it.contentResolver,secilenGorsel)
                             imageView.setImageBitmap(secilenBitmap)
                         }
@@ -234,7 +226,7 @@ class TarifFragment : Fragment() {
 
         }
 
-
+        //görsel boyutu 1mb altına düşüldü
         return Bitmap.createScaledBitmap(kullanicininSectigiBitmap,width,height,true)
     }
 
