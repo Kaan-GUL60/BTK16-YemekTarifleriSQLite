@@ -26,8 +26,8 @@ class ListeRecyclerAdapter(val yemekListesi: ArrayList<String>, val idListesi : 
     override fun onBindViewHolder(holder: YemekHolder, position: Int) { //customdaki doldurulacak yerlere erişim sağlayaıp verileri eklyioruz
         holder.itemView.recycler_row_text.text = yemekListesi[position]  //row_text ile custom viewer a ulaşıp oralara gelecek olan veriler işleniyor gönderiliyor  listwiew de gösterilmesi için
         holder.itemView.setOnClickListener {     // arrayliste e ilgili position a yerleştiriliyorlar listwiev de
-            val action = ListeFragmentDirections.actionListeFragmentToTarifFragment("recyclerdangeldim",idListesi[position])
-            Navigation.findNavController(it).navigate(action)
-        }
+            val action = ListeFragmentDirections.actionListeFragmentToTarifFragment("recyclerdangeldim",idListesi[position])//nereden geldiğimizi belirttik
+            Navigation.findNavController(it).navigate(action)// buradan gitme listview e tıklayınca oluyor ve görüntüleme yapıyoruzveriler ile tam elran soru görüntüleme kısmı yani
+        }                    //menudengeldim yerine boolen bir değer göndermek daha mantıklı bir yapı oluşturacaktır.
     }
 }
