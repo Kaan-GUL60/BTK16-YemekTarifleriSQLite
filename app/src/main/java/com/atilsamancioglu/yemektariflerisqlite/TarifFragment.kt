@@ -51,18 +51,18 @@ class TarifFragment : Fragment() {
             gorselSec(it)
         }
 
-        arguments?.let {
+        arguments?.let { //ayarladığımız menudengeldim vb boolen verileri argumentsleri kontrol ediyoruz
 
             var gelenBilgi = TarifFragmentArgs.fromBundle(it).bilgi
 
-            if (gelenBilgi.equals("menudengeldim")){
-                //yeni bir yemek eklemeye geldi
+            if (gelenBilgi.equals("menudengeldim")){//equals yerine == diye kontrol edebilrisnin
+                //yeni bir yemek eklemeye geldi - - soru isteme işlemlerini yapacak şekilde görüntüle
                 yemekIsmiText.setText("")
                 yemekMalzemeText.setText("")
                 button.visibility = View.VISIBLE
 
                 val gorselSecmeArkaPlani = BitmapFactory.decodeResource(context?.resources,R.drawable.gorselsecimi)
-                imageView.setImageBitmap(gorselSecmeArkaPlani)
+                imageView.setImageBitmap(gorselSecmeArkaPlani) // görsel seç png yi gösteriyor şuan
 
             } else {
                 //daha önce oluşturulan yemeği görmeye geldi
@@ -75,7 +75,7 @@ class TarifFragment : Fragment() {
                     try {
 
                         val db = it.openOrCreateDatabase("Yemekler",Context.MODE_PRIVATE,null)
-                        val cursor = db.rawQuery("SELECT * FROM yemekler WHERE id = ?", arrayOf(secilenId.toString()))
+                        val cursor = db.rawQuery("SELECT * FROM yemekler WHERE id = ?", arrayOf(secilenId.toString()))  //seçilen listview id si string yapıldı ve ona ait veriler çekildi
 
                         val yemekIsmiIndex = cursor.getColumnIndex("yemekismi")
                         val yemekMalzemeIndex = cursor.getColumnIndex("yemekmalzemesi")
@@ -85,9 +85,9 @@ class TarifFragment : Fragment() {
                             yemekIsmiText.setText(cursor.getString(yemekIsmiIndex))
                             yemekMalzemeText.setText(cursor.getString(yemekMalzemeIndex))
 
-                            val byteDizisi = cursor.getBlob(yemekGorseli)
+                            val byteDizisi = cursor.getBlob(yemekGorseli) //görsel byte dizisi veri olarak geldi tekrar png jpg hale getiriyoruz burda.
                             val bitmap = BitmapFactory.decodeByteArray(byteDizisi,0,byteDizisi.size)
-                            imageView.setImageBitmap(bitmap)
+                            imageView.setImageBitmap(bitmap)  // veri imageVİew e verildi
                         }
 
                         cursor.close()
